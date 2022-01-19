@@ -1,13 +1,131 @@
 .about {
-  padding-top: 110px;
+  padding: 110px 0;
+  background-color: #fafafa;
 }
 
-.about__title {
-  font-size: 22px;
+.about__description-container {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 110px;
+}
+
+.about__description {
+  max-width: 550px;
+}
+
+.about__description-title {
+  font-size: 20px;
   font-weight: 400;
-  line-height: 27px;
+  line-height: 24px;
   letter-spacing: -0.04em;
-  padding-bottom: 23px;
-  margin: 0 0 70px 0;
-  border-bottom: 1px solid black;
+  margin: 0 0 26px 0;
+}
+
+.about__description-text {
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0;
+}
+
+.about__timeline-container {
+  display: flex;
+}
+
+.about__timeline {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.about__timeline_left {
+  width: 20%;
+}
+
+.about__timeline_right {
+  width: 80%;
+}
+
+.about__timeline-line {
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 17px;
+  margin-bottom: 14px;
+}
+
+.about__timeline-line_left {
+  background-color: #3456f3;
+  color: white;
+}
+
+.about__timeline-line_right {
+  background-color: #f2f2f2;
+}
+
+.about__timeline-text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  color: #a0a0a0;
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .about__description-container {
+    margin-bottom: 93px;
+    gap: 30px;
+  }
+
+  .about__description {
+    max-width: 319px;
+  }
+
+  .about__description-title {
+    margin-bottom: 22px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .about__description-container {
+    margin-bottom: 60px;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .about__description {
+    max-width: 100%;
+  }
+
+  .about__description-title {
+    margin-bottom: 22px;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: -0.04em;
+  }
+
+  .about__description-text {
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+  }
+
+  .about__timeline_left {
+    width: 35.21%;
+  }
+
+  .about__timeline-line {
+    font-size: 11px;
+    line-height: 13px;
+  }
+
+  .about__timeline-text {
+    font-size: 11px;
+    line-height: 13px;
+  }
 }

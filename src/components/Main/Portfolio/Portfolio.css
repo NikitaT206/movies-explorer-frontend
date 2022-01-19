@@ -1,0 +1,181 @@
+.portfolio {
+  padding: 110px 0 125px 0;
+  background-color: #fafafa;
+}
+
+.portfolio__student-container {
+  margin-bottom: 100px;
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.portfolio__student-description {
+  max-width: 600px;
+}
+
+.portfolio__student-image-container {
+  min-width: 270px;
+  min-height: 327px;
+}
+
+.portfolio__student-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+}
+
+.portfolio__student-name {
+  font-size: 50px;
+  font-weight: 400;
+  line-height: 58px;
+  letter-spacing: -0.04em;
+  margin: 0 0 18px 0;
+}
+
+.portfolio__student-job {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  margin: 0 0 26px 0;
+}
+
+.portfolio__student-text {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  margin: 0 0 99px 0;
+}
+
+.portfolio__student-links {
+  display: flex;
+  gap: 20px;
+}
+
+.portfolio__student-link {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 17px;
+  color: black;
+  text-decoration: none;
+}
+
+.portfolio__portfolio {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #a0a0a0;
+  margin: 0 0 50px 0;
+}
+
+.protfolio__items {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.portfolio__item {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #e8e8e8;
+  cursor: pointer;
+}
+
+.portfolio__item-text {
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 50px;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .portfolio {
+    padding: 90px 0;
+  }
+
+  .portfolio__student-name {
+    font-size: 40px;
+    line-height: 40px;
+    margin-bottom: 16px;
+  }
+
+  .portfolio__student-job {
+    font-size: 12px;
+    line-height: 18px;
+    margin-bottom: 20px;
+  }
+
+  .portfolio__student-text {
+    font-size: 12px;
+    line-height: 18px;
+    margin-bottom: 87px;
+  }
+
+  .portfolio__item-text {
+    font-size: 28px;
+  }
+
+  .portfolio__student-image-container {
+    min-width: 255px;
+    min-height: 307px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .portfolio {
+    padding: 70px 0;
+  }
+
+  .portfolio__student-container {
+    flex-direction: column-reverse;
+    margin-bottom: 69px;
+  }
+
+  .portfolio__student-image-container {
+    height: 352px;
+    margin: 0 auto;
+    max-width: 292px;
+    min-width: none;
+    width: 100%;
+  }
+
+  .portfolio__student-name {
+    font-size: 30px;
+    line-height: 36.31px;
+    margin-bottom: 20px;
+  }
+
+  .portfolio__student-job {
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .portfolio__student-text {
+    font-size: 11px;
+    line-height: 16px;
+    margin-bottom: 40px;
+  }
+
+  .portfolio__portfolio {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .portfolio__item-text {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .portfolio__item-arrow {
+    width: 18px;
+    height: 28px;
+    display: block;
+  }
+}
