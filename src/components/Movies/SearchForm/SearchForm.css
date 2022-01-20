@@ -42,6 +42,11 @@
   height: 22px;
   margin-right: 46px;
   width: 100%;
+  transition: 0.3s ease-in-out;
+}
+
+.search__input:focus::placeholder {
+  opacity: 0;
 }
 
 .search__input::placeholder {
@@ -49,6 +54,7 @@
   line-height: 20px;
   color: #a0a0a0;
   padding: 0;
+  transition: 0.3s ease-in-out;
 }
 
 .search__search-button {
@@ -63,6 +69,12 @@
   display: block;
   padding: 0;
   cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.search__search-button:focus {
+  opacity: 0.7;
+  outline: none;
 }
 
 .search__border {

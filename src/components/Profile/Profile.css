@@ -12,6 +12,7 @@
   width: 410px;
   display: flex;
   flex-direction: column;
+  padding: 8% 0;
 }
 
 .profile__greet {

@@ -24,18 +24,18 @@ export function Portfolio() {
         </div>
         <p className='portfolio__portfolio'>Портфолио</p>
         <div className='protfolio__items'>
-          <div className='portfolio__item'>
+          <a className='portfolio__item opacity' href='https://nikitat206.github.io/HowToLearn/' target='_blank' rel='noreferrer'>
             <p className='portfolio__item-text'>Статичный сайт</p>
             <img className='portfolio__item-arrow' src={arrow} alt='Стрелка'></img>
-          </div>
-          <div className='portfolio__item'>
+          </a>
+          <a className='portfolio__item opacity' href='https://nikitat206.github.io/russian-travel/' target='_blank' rel='noreferrer'>
             <p className='portfolio__item-text'>Адаптивный сайт</p>
             <img className='portfolio__item-arrow' src={arrow} alt='Стрелка'></img>
-          </div>
-          <div className='portfolio__item'>
+          </a>
+          <a className='portfolio__item opacity' href='https://mesto.nikitat206.front.nomoredomains.rocks/' target='_blank' rel='noreferrer'>
             <p className='portfolio__item-text'>Одностраничное приложение</p>
             <img className='portfolio__item-arrow' src={arrow} alt='Стрелка'></img>
-          </div>
+          </a>
         </div>
       </div>
     </section>

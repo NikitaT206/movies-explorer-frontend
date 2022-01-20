@@ -22,9 +22,9 @@ export function MoviesCard(props) {
         <div className='movie__description'>
           <p className='movie__name'>{props.film.name}</p>
           {props.savedFilms ? (
-            <div className='movie__delete-button opacity'></div>
+            <button className='movie__delete-button opacity'></button>
           ) : (
-            <div className={like ? 'movie__like movie__like_active opacity' : 'movie__like opacity'} onClick={handleLike}></div>
+            <button className={like ? 'movie__like movie__like_active opacity' : 'movie__like opacity'} onClick={handleLike}></button>
           )}
         </div>
         <p className='movie__time'>{props.film.time}</p>

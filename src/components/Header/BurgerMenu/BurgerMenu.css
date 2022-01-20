@@ -46,6 +46,7 @@
   text-align: center;
   align-content: center;
   flex-direction: column;
+  overflow: scroll;
 }
 
 .burger-menu__content_active {
@@ -59,17 +60,16 @@
   flex-direction: column;
   gap: 28px;
   flex: 1 1 auto;
+  padding-bottom: 5%;
 }
 
 .burger-menu__link {
   font-size: 18px;
-  font-style: normal;
   font-weight: 500;
   line-height: 22px;
-  margin: 0;
+  text-decoration: none;
   width: max-content;
   margin: 0 auto;
-  text-decoration: none;
   color: inherit;
   position: relative;
 }
@@ -86,9 +86,9 @@
 
 .burger-menu__account {
   display: flex;
-  text-align: center;
-  margin: 0 auto;
   align-items: center;
+  align-self: center;
+  justify-self: center;
   text-decoration: none;
   color: inherit;
 }

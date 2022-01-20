@@ -5,7 +5,10 @@ export function Login() {
   return (
     <div className='login'>
       <div className='login__container'>
-        <Link className='header__logo' to='/'/>
+        <div className='login__logo-container'>
+          <Link className='header__logo header__logo_login' to='/'/>
+        </div>
+        
         <h3 className='login__greet'>Рады видеть!</h3>
         <form className='login__form'>
           <div className='login__inputs'>

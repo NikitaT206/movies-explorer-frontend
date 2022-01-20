@@ -48,6 +48,8 @@
   background-repeat: no-repeat;
   background-size: 14px;
   transition: 0.3s ease-in-out;
+  border: none;
+  background-color: transparent;
 }
 
 .movie__like_active {
@@ -70,6 +72,8 @@
   opacity: 0;
   visibility: hidden;
   transition: 0.3s ease-in-out;
+  border: none;
+  background-color: transparent;
 }
 
 .movie:hover .movie__delete-button {
