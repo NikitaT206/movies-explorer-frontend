@@ -17,7 +17,7 @@ export function MoviesCardList(props) {
           )
         })}
       </ul>
-      {props.button ? <button className="movies-card-list__button" onClick={props.onButtonClick}>Еще</button> : ''}
+      {props.showMoreButton ? <button className="movies-card-list__button" onClick={props.onMoreButtonClick}>Еще</button> : ''}
     </div>
   )
 }

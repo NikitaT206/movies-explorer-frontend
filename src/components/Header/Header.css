@@ -1,6 +1,11 @@
 .header {
-  display: flex;
   height: 74px;
+  display: flex;
+  align-items: center;
+}
+
+.header__container {
+  display: flex;
   align-items: center;
 }
 
