@@ -1,7 +1,28 @@
 import '../Login/Login.css'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
-export function Registration() {
+
+
+export function Registration(props) {
+
+  const [data, setData] = useState({email: '', password: '', name: ''})
+
+  function handleChange(event) {
+    const {name, value} = event.target
+    setData({
+      ...data,
+      [name]: value
+    })
+  }
+
+  function handleSubmit(event) {
+    console.log(data)
+    
+    event.preventDefault()
+    props.onRegister(data)
+  }
+
   return (
     <div className='login'>
       <div className='login__container'>
@@ -9,7 +30,7 @@ export function Registration() {
           <Link className='header__logo header__logo_login' to='/'/>
         </div>
         <h3 className='login__greet'>Добро пожаловать!</h3>
-        <form className='login__form'>
+        <form className='login__form' onSubmit={handleSubmit}>
           <div className='login__inputs'>
             <div className='login__input-container'>
               <label className='login__label' htmlFor='registration-input-name'>Имя</label>
@@ -19,6 +40,8 @@ export function Registration() {
                 minLength={2}
                 maxLength={30}
                 type='text'
+                name='name'
+                onChange={handleChange}
                 required
                 ></input>
             </div>
@@ -28,6 +51,8 @@ export function Registration() {
                 className='login__input' 
                 id='registration-input-email'
                 type='email'
+                name='email'
+                onChange={handleChange}
                 required
                 ></input>
             </div>
@@ -39,6 +64,8 @@ export function Registration() {
                 minLength={6}
                 maxLength={30}
                 type='password'
+                name='password'
+                onChange={handleChange}
                 required
                 ></input>
             </div>

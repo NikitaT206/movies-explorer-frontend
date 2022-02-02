@@ -5,6 +5,7 @@
   width: 1140px;
   max-width: 89.06%;
   margin: 0 auto;
+  min-height: calc(100vh - 609px);
 }
 
 .movies-card-list__list {

@@ -1,7 +1,25 @@
 import './Login.css'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
-export function Login() {
+export function Login(props) {
+  const [data, setData] = useState({email: '', password: ''})
+
+  function handleChange(event) {
+    const {name, value} = event.target
+    setData({
+      ...data,
+      [name]: value
+    })
+  }
+
+  function handleSubmit(event) {
+    console.log(data)
+    event.preventDefault()
+    props.onLogin(data)
+  }
+
+
   return (
     <div className='login'>
       <div className='login__container'>
@@ -10,7 +28,7 @@ export function Login() {
         </div>
         
         <h3 className='login__greet'>Рады видеть!</h3>
-        <form className='login__form'>
+        <form className='login__form' onSubmit={handleSubmit}>
           <div className='login__inputs'>
             <div className='login__input-container'>
               <label className='login__label' htmlFor='login-input-email'>E-mail</label>
@@ -18,6 +36,8 @@ export function Login() {
                 className='login__input' 
                 id='login-input-email'
                 type='email'
+                name='email'
+                onChange={handleChange}
                 required
                 ></input>
             </div>
@@ -29,6 +49,8 @@ export function Login() {
                 minLength={6}
                 maxLength={30}
                 type='password'
+                name='password'
+                onChange={handleChange}
                 required
                 ></input>
             </div>

@@ -13,7 +13,10 @@
 
 .movie__image {
   width: 100%;
+  height: 203px;
   display: block;
+  object-position: center;
+  object-fit: cover;
 }
 
 .movie__despription-container {
@@ -81,7 +84,17 @@
   visibility: visible;
 }
 
+@media screen and (max-width: 768px) {
+  .movie__image {
+    height: 190px;
+  }
+}
+
 @media screen and (max-width: 500px) {
+  .movie__image {
+    height: 168px;
+  }
+
   .movie__name {
     font-size: 12px;
     line-height: 14.52px;
