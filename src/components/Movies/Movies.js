@@ -7,8 +7,26 @@ export function Movies(props) {
 
   return (
     <div className="movies">
-      <SearchForm searchValue={props.searchValue} onChangeSearchValue={props.onChangeSearchValue} onSearch={props.onSearch}/>
-      {props.loader ? <Preloader onSerchNotFound={props.onSerchNotFound} onSearchLoading={props.onSearchLoading} onSearchError={props.onSearchError} /> : <MoviesCardList films={props.films} counter={props.counter} showMoreButton={props.showMoreButton} onMoreButtonClick={props.onMoreButtonClick} onLikeMovie={props.onLikeMovie}/>}
+      <SearchForm 
+        searchValue={props.searchValue} 
+        onChangeSearchValue={props.onChangeSearchValue} 
+        onSearch={props.onSearch} 
+        onToogleCheckbox={props.onToogleCheckbox} 
+        shortFilm={props.shortFilm}/>
+      {props.loader ? (
+        <Preloader 
+          onSerchNotFound={props.onSerchNotFound} 
+          onSearchLoading={props.onSearchLoading} 
+          onSearchError={props.onSearchError}/>
+      )  : (
+        <MoviesCardList 
+          films={props.films} 
+          counter={props.counter} 
+          showMoreButton={props.showMoreButton} 
+          onMoreButtonClick={props.onMoreButtonClick} 
+          onLikeMovie={props.onLikeMovie}
+          isLiked={props.isLiked}/>
+      ) }
     </div> 
   )
 }

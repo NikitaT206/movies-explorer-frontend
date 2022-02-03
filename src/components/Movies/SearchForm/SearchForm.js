@@ -12,7 +12,7 @@ export function SearchForm(props) {
           <button className='search__search-button opacity' type='submit'></button>
           <div className='search__border'></div>
         </div>
-        <FilterCheckbox/>
+        <FilterCheckbox shortFilm={props.shortFilm} onToogleCheckbox={props.onToogleCheckbox}/>
       </form>
     </div>
   )

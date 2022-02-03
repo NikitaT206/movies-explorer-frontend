@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom'
 import './Profile.css'
 import { useState } from 'react'
-import { useEffect } from 'react/cjs/react.development'
-import { mainApi } from '../../utils/MainApi'
 
 export function Profile(props) {
 

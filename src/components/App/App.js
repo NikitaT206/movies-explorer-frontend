@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { Login } from '../Login/Login';
 import { Registration } from '../Registration/Registration';
 import { NotFound } from '../NotFound/NotFound';
-import { Route, Routes, useNavigate } from 'react-router'
+import { Navigate, Route, Routes, useNavigate } from 'react-router'
 import { SavedMovies } from '../SavedMovies/SavedMovies';
 import { Movies } from '../Movies/Movies';
 import { Profile } from '../Profile/Profile'
@@ -31,11 +31,11 @@ function App() {
 
   const [loggedIn, setLoggedIn] = useState(false)
   const [userInfo, setUserInfo] = useState({})
-
   const [films, setFilms] = useState([])
   const [savedFilms, setSavedFilms] = useState([])
 
   const [counter, setCounter] = useState(0)
+  const [shortFilm, setShortFilm] = useState(false)
 
   const [loader, setLoader] = useState(false)
   const [searchNotFound, setSearchNotFound] = useState(false)
@@ -43,8 +43,13 @@ function App() {
   const [searchError, setSearchError] = useState(false)
   const [searchValue, setSearchValue] = useState('')
 
-  const [moreButton, setMoreButton] = useState(false)
+  const [savedFilmsLoader, setSavedFilmsLoader] = useState(false)
+  const [savedFilmsSearchNotFound, setSavedFilmsSearchNotFound] = useState(false)
+  const [savedFilmsSearchLoading, setSavedFilmsSearchLoading] = useState(false)
+  const [savedFilmsSearchValue, setSavedFilmsSearchValue] = useState('')
 
+  const [moreButton, setMoreButton] = useState(false)
+  const [isLiked, setIsLiked] = useState(false)
 
   function handleBurgerOpen() {
     setBurgerOpen(!burgerOpen)
@@ -52,6 +57,10 @@ function App() {
 
   function closeInfo() {
     setInfoOpen(false)
+  }
+
+  function handleToogleCheckbox() {
+    setShortFilm(!shortFilm)    
   }
 
   function handleRegistration(data) {    
@@ -84,7 +93,11 @@ function App() {
   }
 
   function handleChangeSearchValue(event) {
-    setSearchValue(event.target.value)    
+    setSearchValue(event.target.value)
+  }
+
+  function handleChangeSavedFilmsSearchValue(event) {
+    setSavedFilmsSearchValue(event.target.value)
   }
 
   function handleSearch(event) {
@@ -98,13 +111,17 @@ function App() {
         setSearchError(false)
         setCounter(0)
         setTimeout(() => {
-          const filteredFilms = films.filter(film => film.nameRU.toLowerCase().includes(searchValue.toLowerCase()))
+          const filteredFilms = films.filter(film => shortFilm ? (
+            film.duration <= 40 && film.nameRU.toLowerCase().includes(searchValue.toLowerCase())
+          )  : (
+            film.nameRU.toLowerCase().includes(searchValue.toLowerCase())
+          ))
           if (!filteredFilms.length) {
             setSearchLoading(false)
             setSearchNotFound(true)
-            setSearchValue('')
           } else {
             setFilms(filteredFilms)
+            localStorage.setItem('searchValue', searchValue)
             localStorage.setItem('films', JSON.stringify(filteredFilms))
             setSearchValue('')
             setSearchLoading(false)
@@ -121,18 +138,28 @@ function App() {
 
   function handleSearchSavedFilms(event) {
     event.preventDefault()
-    const copyArrOfSavedFilms = [...savedFilms]
-    const filteredFilms = copyArrOfSavedFilms.filter(film => film.nameRU.toLowerCase().includes(searchValue.toLowerCase()))
-    console.log(filteredFilms)
-    if (!filteredFilms.length) {
-      setLoader(true)
-      setSearchNotFound(true)
-      setSavedFilms(filteredFilms)
-    } else {
-      setLoader(false)
-      setSearchNotFound(false)
-      setSavedFilms(filteredFilms)
-    }
+
+    const storageSavedFilms = JSON.parse(localStorage.getItem('savedFilms'))
+    setSavedFilmsLoader(true)
+    setSavedFilmsSearchLoading(true)
+    setSavedFilmsSearchNotFound(false)
+    const filteredFilms = storageSavedFilms.filter(film => shortFilm ? (
+      film.nameRU.toLowerCase().includes(savedFilmsSearchValue.toLowerCase()) && film.duration <= 40
+    ) : (
+      film.nameRU.toLowerCase().includes(savedFilmsSearchValue.toLowerCase())
+    ) )
+    setTimeout(() => {
+      if (!filteredFilms.length) {
+        setSavedFilmsSearchLoading(false)
+        setSavedFilmsSearchNotFound(true)
+      } else {
+        setSavedFilmsLoader(false)
+        setSavedFilmsSearchLoading(false)
+        setSavedFilmsSearchNotFound(false)
+        setSavedFilms(filteredFilms)
+      }
+    }, 200)
+    
   }
 
   // увеличивает counter массива с карточками, в зависимости от ширины экрана
@@ -149,19 +176,11 @@ function App() {
     }
   }
 
-  function tokenCheck() {
-    if (localStorage.getItem('jwt')) {
-      setLoggedIn(true)     
-      console.log(loggedIn)
-       
-      navigate('/movies')
-    }
-  }
-
   function handleLogout() {
     localStorage.removeItem('jwt')
     localStorage.removeItem('films')
     localStorage.removeItem('savedFilms')
+    localStorage.removeItem('searchValue')
     setUserInfo({})
     setLoggedIn(false)    
     navigate('/')
@@ -172,6 +191,7 @@ function App() {
       .then(data => {
         setInfoOpen(true)
         setInfoError(false)
+        setUserInfo(data)
         setInfoText('Все хорошо')
       })
       .catch(err => {
@@ -183,41 +203,36 @@ function App() {
   }
 
   function handleLikeMovie(data) {
-    mainApi.createMovie(data, localStorage.getItem('jwt')).then(data => setSavedFilms(data, ...savedFilms))
+    mainApi.createMovie(data, localStorage.getItem('jwt')).then(data =>{
+      setSavedFilms([data, ...savedFilms])
+      localStorage.setItem('savedFilms', JSON.stringify([data, ...savedFilms]))      
+    })
   }
 
   function handleDislikeMovie(data) {
     mainApi.deletemovie(data, localStorage.getItem('jwt')).then(data => setSavedFilms(savedFilms.filter(film => film._id !== data._id)))
-    
   }
 
-  // useEffect(() => {
-  //   tokenCheck()
-  // }, [loggedIn])
-
   useEffect(() => {
-
     if (localStorage.getItem('jwt')) {
-      setLoggedIn(true)     
-      console.log(loggedIn)
-      navigate('/movies')
+      setLoggedIn(true)
+      if (loggedIn) {
+        navigate('/movies')
+      }
     }
-    
   }, [loggedIn])
 
   useEffect(() => {
     mainApi.getUserInfo(localStorage.getItem('jwt')).then(data => setUserInfo(data[0]))
-  }, [])
+  }, [userInfo.name])
 
   useEffect(() => {
-    mainApi.getMovies(localStorage.getItem('jwt')).then(data => {
-      const ownFilms = data.filter(film => film.owner === userInfo._id)
-      console.log(userInfo)
-      
-      setSavedFilms(data)
-    })
-  }, [])
-
+      mainApi.getMovies(localStorage.getItem('jwt')).then(data => {
+        const ownFilms = data.filter(film => film.owner === userInfo._id)  
+        localStorage.setItem('savedFilms', JSON.stringify(ownFilms))      
+        setSavedFilms(ownFilms)
+      })
+  }, [userInfo, setSavedFilms])
 
   // закрывает попап при нажатии на escape
 
@@ -227,9 +242,7 @@ function App() {
         closeInfo()
       }
     }
-
     document.addEventListener('keydown', closeByEscape)
-    
     return () => document.removeEventListener('keydown', closeByEscape)
   }, [])
 
@@ -242,7 +255,6 @@ function App() {
       }, 1000)
     };
     window.addEventListener('resize', resizeListener);
-
     return () => {
       window.removeEventListener('resize', resizeListener);
     }
@@ -283,8 +295,18 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem('films')) {
       setFilms(JSON.parse(localStorage.getItem('films')))
+      setSearchValue(localStorage.getItem('searchValue'))
     }
   }, [])
+
+  // useEffect(() => {
+  //   films.some(film => savedFilms.map(savedFilm => {
+  //     if (film.id === savedFilm.movieId) {
+  //      console.log(savedFilm)
+  //      setIsLiked(true)
+  //     }
+  //   }))
+  // })
 
 
   return (
@@ -303,36 +325,54 @@ function App() {
         <Route path='/signup' element={<Registration onRegister={handleRegistration}/>}/>
         <Route path='/signin' element={<Login onLogin={handleLogin}/>}/>
         <Route exact path="/" element={<Main/>}/>
-        <Route path="/profile" element={<Profile onLogout={handleLogout} name={userInfo.name} email={userInfo.email} onEditUser={handleUpdateUser}/>}/>
+        <Route 
+          path="/profile"
+          element={loggedIn ? (
+            <Profile
+              onLogout={handleLogout} 
+              name={userInfo.name} 
+              email={userInfo.email} 
+              onEditUser={handleUpdateUser}
+            />
+          ) : <Navigate to='/'/>
+           }/>
         <Route 
           path="/movies" 
-          element={
+          element={loggedIn ? (
             <Movies 
-              onLikeMovie={handleLikeMovie}
-              searchValue={searchValue}
-              onChangeSearchValue={handleChangeSearchValue}
-              onSearch={handleSearch}
-              loader={loader}
-              onSerchNotFound={searchNotFound}
-              onSearchLoading={searchLoading}
-              onSearchError={searchError}
-              films={films}
-              counter={counter}
-              showMoreButton={moreButton}
-              onMoreButtonClick={handleMoreButtonClick}
-              />}/>
+            onLikeMovie={handleLikeMovie}
+            searchValue={searchValue}
+            onChangeSearchValue={handleChangeSearchValue}
+            onSearch={handleSearch}
+            loader={loader}
+            onSerchNotFound={searchNotFound}
+            onSearchLoading={searchLoading}
+            onSearchError={searchError}
+            films={films}
+            counter={counter}
+            showMoreButton={moreButton}
+            onMoreButtonClick={handleMoreButtonClick}
+            shortFilm={shortFilm}
+            onToogleCheckbox={handleToogleCheckbox}
+            isLiked={isLiked}
+            />
+          ) : <Navigate to='/'/>
+           }/>
         <Route 
           path="/saved-movies" 
-          element={
+          element={loggedIn ? (
             <SavedMovies 
               onDislikeMovie={handleDislikeMovie}
               films={savedFilms}
-              searchValue={searchValue}
-              loader={loader}
-              searchNotFound={searchNotFound}
-              onChangeSearchValue={handleChangeSearchValue}
+              searchValue={savedFilmsSearchValue}
+              loader={savedFilmsLoader}
+              onSearchNotFound={savedFilmsSearchNotFound}
+              onSearchLoading={savedFilmsSearchLoading}
+              onChangeSearchValue={handleChangeSavedFilmsSearchValue}
               onSearch={handleSearchSavedFilms}
-              />}/>
+            />
+          ) : <Navigate to='/'/>
+           }/>
         <Route path='*' element={<NotFound/>}/>
       </Routes>  
 

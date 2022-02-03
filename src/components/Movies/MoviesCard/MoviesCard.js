@@ -4,6 +4,7 @@ import { moviesUrl } from '../../../utils/constants'
 
 export function MoviesCard(props) {
   const [like, setLike] = useState(false)
+  // const isLiked = props.film.id.some((i => i === props.savedFilm._id))
 
   const [filmDuration, setFilmDuration] = useState(props.film.duration)
 
@@ -12,7 +13,6 @@ export function MoviesCard(props) {
       setLike(false)
     } else {
       setLike(true)
-      console.log(props.film)
       props.onLikeMovie(props.film)
     }
   }
@@ -22,9 +22,9 @@ export function MoviesCard(props) {
   }
 
   function getFilmDuration() {
-    let x = (filmDuration / 60).toString().slice(0, 4).split('.')
-    let hours = x[0]
-    let minutes = Math.round(Number(`0.${x[1]}`) * 60)
+    const arr = (filmDuration / 60).toString().slice(0, 4).split('.')
+    const hours = arr[0]
+    const minutes = Math.round(Number(`0.${arr[1]}`) * 60)
     if (filmDuration < 60) return `${filmDuration}м`
     if (!minutes) return `${hours}ч`
     return `${hours}ч ${minutes}м`    
@@ -49,7 +49,7 @@ export function MoviesCard(props) {
           {props.savedFilms ? (
             <button className='movie__delete-button opacity' onClick={handleDislike}></button>
           ) : (
-            <button className={like ? 'movie__like movie__like_active opacity' : 'movie__like opacity'} onClick={handleLike}></button>
+            <button className={props.isLiked ? 'movie__like movie__like_active opacity' : 'movie__like opacity'} onClick={handleLike}></button>
           )}
         </div>
         <p className='movie__time'>{filmDuration}</p>
@@ -57,5 +57,3 @@ export function MoviesCard(props) {
     </div>
   )
 }
-
-//moviesUrl + props.film.image.url ||

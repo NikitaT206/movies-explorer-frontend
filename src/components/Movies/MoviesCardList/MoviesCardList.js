@@ -13,6 +13,7 @@ export function MoviesCardList(props) {
               savedFilms={props.savedFilms} 
               onLikeMovie={props.onLikeMovie} 
               onDislikeMovie={props.onDislikeMovie}
+              isLiked={props.isLiked}
             />
           )
         })}
