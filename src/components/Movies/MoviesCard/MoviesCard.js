@@ -1,24 +1,20 @@
 import './MoviesCard.css'
+import React from 'react'
 import { useEffect, useState } from 'react'
 import { moviesUrl } from '../../../utils/constants'
+import { SavedFilmsContext } from '../../../context/SavedFilmsContext'
 
 export function MoviesCard(props) {
-  const [like, setLike] = useState(false)
-  // const isLiked = props.film.id.some((i => i === props.savedFilm._id))
-
   const [filmDuration, setFilmDuration] = useState(props.film.duration)
+  const savedFilms = React.useContext(SavedFilmsContext)
+  const isLiked = savedFilms.some(s => s.movieId === props.film.id)
 
   function handleLike() {
-    if (like) {
-      setLike(false)
-    } else {
-      setLike(true)
-      props.onLikeMovie(props.film)
-    }
+    props.onFilmLike(props.film)
   }
 
-  function handleDislike() {
-    props.onDislikeMovie(props.film)
+  function handleDelete() {
+    props.onSavedFilmDelete(props.film)
   }
 
   function getFilmDuration() {
@@ -31,7 +27,7 @@ export function MoviesCard(props) {
   }
 
   useEffect(() => {
-    setFilmDuration(getFilmDuration)
+    setFilmDuration(getFilmDuration)     
   }, [])
 
   return (
@@ -47,9 +43,9 @@ export function MoviesCard(props) {
         <div className='movie__description'>
           <p className='movie__name'>{props.film.nameRU}</p>
           {props.savedFilms ? (
-            <button className='movie__delete-button opacity' onClick={handleDislike}></button>
+            <button className='movie__delete-button opacity' onClick={handleDelete}></button>
           ) : (
-            <button className={props.isLiked ? 'movie__like movie__like_active opacity' : 'movie__like opacity'} onClick={handleLike}></button>
+            <button className={isLiked ? 'movie__like movie__like_active opacity' : 'movie__like opacity'} onClick={handleLike}></button>
           )}
         </div>
         <p className='movie__time'>{filmDuration}</p>

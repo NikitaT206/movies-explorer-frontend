@@ -7,18 +7,28 @@ import { useState } from 'react'
 export function Registration(props) {
 
   const [data, setData] = useState({email: '', password: '', name: ''})
+  const [message, setMessage] = useState({name: '', email: '', password: ''})
+  const [error, setError] = useState({name: false, email: false, password: false})
+  const [isValid, setIsValid] = useState(false)
 
   function handleChange(event) {
-    const {name, value} = event.target
+    const {name, value, validationMessage} = event.target
     setData({
       ...data,
       [name]: value
     })
+
+    setMessage({...message, [name]: validationMessage})
+    setError({...error, [name]: validationMessage ? true : false})
+
+    if (event.target.closest('form').checkValidity()) {
+      setIsValid(true)
+    } else {
+      setIsValid(false)
+    }
   }
 
-  function handleSubmit(event) {
-    console.log(data)
-    
+  function handleSubmit(event) {    
     event.preventDefault()
     props.onRegister(data)
   }
@@ -35,7 +45,7 @@ export function Registration(props) {
             <div className='login__input-container'>
               <label className='login__label' htmlFor='registration-input-name'>Имя</label>
               <input 
-                className='login__input' 
+                className={error.name ? 'login__input login__input_error' : 'login__input'} 
                 id='registration-input-name'
                 minLength={2}
                 maxLength={30}
@@ -43,23 +53,27 @@ export function Registration(props) {
                 name='name'
                 onChange={handleChange}
                 required
-                ></input>
+                pattern='^[a-zA-Zа-яёА-ЯЁ\-\s]+$'
+                />
+                <span className='login__validation-message'>{message.name}</span>
             </div>
             <div className='login__input-container'>
               <label className='login__label' htmlFor='registration-input-email'>E-mail</label>
               <input 
-                className='login__input' 
+                className={error.email ? 'login__input login__input_error' : 'login__input'} 
                 id='registration-input-email'
                 type='email'
                 name='email'
                 onChange={handleChange}
                 required
-                ></input>
+                pattern='^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+                />
+                <span className='login__validation-message'>{message.email}</span>
             </div>
             <div className='login__input-container'>
               <label className='login__label' htmlFor='registration-input-password'>Пароль</label>
               <input 
-                className='login__input' 
+                className={error.password ? 'login__input login__input_error' : 'login__input'} 
                 id='registration-input-password'
                 minLength={6}
                 maxLength={30}
@@ -67,10 +81,14 @@ export function Registration(props) {
                 name='password'
                 onChange={handleChange}
                 required
-                ></input>
+                />
+                <span className='login__validation-message'>{message.password}</span>
             </div>
           </div>
-          <button className='login__submit-button opacity' type='submit'>Зарегистрироваться</button>
+          <button 
+            className={isValid ? 'login__submit-button opacity' : 'login__submit-button login__submit-button_disabled'} 
+            type='submit'
+            disabled={isValid ? false : true}>Зарегистрироваться</button>
         </form>
         <div className='login__link-container'>
           <p className='login__caption'>Уже зарегистрированы?</p>

@@ -24,8 +24,9 @@ export function Movies(props) {
           counter={props.counter} 
           showMoreButton={props.showMoreButton} 
           onMoreButtonClick={props.onMoreButtonClick} 
-          onLikeMovie={props.onLikeMovie}
-          isLiked={props.isLiked}/>
+          onFilmLike={props.onFilmLike}
+          isLiked={props.isLiked}
+          onLikeClick={props.onLikeClick}/>   
       ) }
     </div> 
   )

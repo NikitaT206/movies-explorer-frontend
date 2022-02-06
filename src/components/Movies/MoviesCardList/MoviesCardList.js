@@ -10,10 +10,11 @@ export function MoviesCardList(props) {
             <MoviesCard 
               film={film} 
               key={film.id || film._id} 
-              savedFilms={props.savedFilms} 
-              onLikeMovie={props.onLikeMovie} 
-              onDislikeMovie={props.onDislikeMovie}
+              savedFilms={props.savedFilms}
+              onFilmLike={props.onFilmLike} 
               isLiked={props.isLiked}
+              onLikeClick={props.onLikeClick}
+              onSavedFilmDelete={props.onSavedFilmDelete}
             />
           )
         })}

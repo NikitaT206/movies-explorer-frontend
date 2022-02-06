@@ -46,8 +46,8 @@ class MainApi {
     }).then(this._returnRes)
   }
 
-  deletemovie(data, token) {
-    return fetch(this.url + 'movies/' + data._id, {
+  deleteMovie(data, token) {
+    return fetch(this.url + 'movies/' + data, {
       method: 'DELETE',
       headers: {
         'Authorization': 'Bearer ' + token,
