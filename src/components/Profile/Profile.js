@@ -47,9 +47,10 @@ export function Profile(props) {
                 maxLength={30}
                 type='text'
                 name='name'
-                defaultValue={props.name}
+                placeholder={props.name}
                 onChange={handleChange}
                 required
+                pattern='^[a-zA-Zа-яёА-ЯЁ\-\s]+$'
                 />
               <span className='profile__validation-message profile__validation-message_top'>{message.name}</span>
             </div>
@@ -62,9 +63,10 @@ export function Profile(props) {
                 maxLength={30}
                 type='email'
                 name='email'
-                defaultValue={props.email}
+                placeholder={props.email}
                 onChange={handleChange}
                 required
+                pattern='^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
                 />
                 <span className='profile__validation-message profile__validation-message_bottom'>{message.email}</span>
             </div>

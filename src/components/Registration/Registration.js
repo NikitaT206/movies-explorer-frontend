@@ -2,8 +2,6 @@ import '../Login/Login.css'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 
-
-
 export function Registration(props) {
 
   const [data, setData] = useState({email: '', password: '', name: ''})

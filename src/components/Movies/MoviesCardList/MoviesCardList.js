@@ -1,5 +1,6 @@
 import { MoviesCard } from '../MoviesCard/MoviesCard'
 import './MoviesCardList.css'
+
 export function MoviesCardList(props) {
 
   return (
@@ -19,7 +20,7 @@ export function MoviesCardList(props) {
           )
         })}
       </ul>
-      {props.showMoreButton ? <button className="movies-card-list__button" onClick={props.onMoreButtonClick}>Еще</button> : ''}
+      {props.showMoreButton ? <button className="movies-card-list__button opacity" onClick={props.onMoreButtonClick}>Еще</button> : ''}
     </div>
   )
 }

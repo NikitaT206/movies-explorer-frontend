@@ -14,7 +14,7 @@ import { PromoHeader } from '../Header/PromoHeader';
 import { Footer } from '../Footer/Footer';
 import { mainApi } from '../../utils/MainApi';
 import { InfoToolTip } from '../InfoToolTip/InfoToolTip';
-import { useEffect } from 'react/cjs/react.development';
+import { useEffect } from 'react';
 import { moviesApi } from '../../utils/MoviesApi';
 import { FilmsContext } from '../../context/FilmsContext';
 import { SavedFilmsContext } from '../../context/SavedFilmsContext';
@@ -37,19 +37,20 @@ function App() {
   const [userInfo, setUserInfo] = useState({})
   const [films, setFilms] = useState([])
   const [savedFilms, setSavedFilms] = useState([])
-  const [copyOfSavedFilms, setCopyOfSavedFilms] = useState([])
 
   const [loader, setLoader] = useState(false)
   const [searchNotFound, setSearchNotFound] = useState(false)
   const [searchLoading, setSearchLoading] = useState(false)
   const [searchError, setSearchError] = useState(false)
   const [searchValue, setSearchValue] = useState('')
+  const [searchValidationError, setSearchValidationError] = useState(false)
   const [shortFilm, setShortFilm] = useState(false)
 
   const [savedFilmsLoader, setSavedFilmsLoader] = useState(false)
   const [savedFilmsSearchNotFound, setSavedFilmsSearchNotFound] = useState(false)
   const [savedFilmsSearchLoading, setSavedFilmsSearchLoading] = useState(false)
   const [savedFilmsSearchValue, setSavedFilmsSearchValue] = useState('')
+  const [savedFilmsSearchValidationError, setSavedFilmsSearchValidationError] = useState(false)
   const [savedFilmsShortFilm, setSavedFilmsShortFilm] = useState(false)
 
 
@@ -80,7 +81,7 @@ function App() {
       .catch(() => {
         setInfoOpen(true)
         setInfoError(true)
-        setInfoText('Кажется что-то пошло не так :( Попробуйте еще раз')        
+        setInfoText('Кажется что-то пошло не так. Попробуйте еще раз')        
       })
   }
 
@@ -94,7 +95,7 @@ function App() {
       .catch(() => {
         setInfoOpen(true)
         setInfoError(true)
-        setInfoText('Вы ввели неверные данные :( Попробуйте еще раз')
+        setInfoText('Вы ввели неверные данные. Попробуйте еще раз')
       })
   }
 
@@ -104,6 +105,10 @@ function App() {
     localStorage.removeItem('savedFilms')
     localStorage.removeItem('searchValue')
     localStorage.removeItem('shortFilm')
+    setFilms([])
+    setSearchValue('')
+    setShortFilm(false)
+    setSavedFilms([])
     setUserInfo({})
     setLoggedIn(false)    
     navigate('/')
@@ -121,7 +126,7 @@ function App() {
         console.log(err)
         setInfoOpen(true)
         setInfoError(true)
-        setInfoText('Кажется что-то пошло не так :( Попробуйте еще раз')
+        setInfoText('Кажется что-то пошло не так. Попробуйте еще раз')
       })
   }
 
@@ -135,6 +140,8 @@ function App() {
 
   function handleSearch(event) {
     event.preventDefault()
+    if (!searchValue) return setSearchValidationError(true)
+    setSearchValidationError(false)
     moviesApi.getFilms()
       .then(films => {
         setLoader(true)
@@ -155,8 +162,7 @@ function App() {
             setFilms(filteredFilms)
             localStorage.setItem('searchValue', searchValue)
             localStorage.setItem('films', JSON.stringify(filteredFilms))
-            localStorage.setItem('shortFilm', shortFilm)
-            setSearchValue('')
+            localStorage.setItem('shortFilm', JSON.stringify(shortFilm))
             setSearchLoading(false)
             setLoader(false)
           }
@@ -171,27 +177,29 @@ function App() {
 
   function handleSearchSavedFilms(event) {
     event.preventDefault()
-    // const storageSavedFilms = JSON.parse(localStorage.getItem('savedFilms'))
+    if (!savedFilmsSearchValue) return setSavedFilmsSearchValidationError(true)
+    setSavedFilmsSearchValidationError(false)
     setSavedFilmsLoader(true)
     setSavedFilmsSearchLoading(true)
     setSavedFilmsSearchNotFound(false)
-    setSavedFilms(copyOfSavedFilms)
-    console.log(savedFilms)
-    
-    const filteredFilms = savedFilms.filter(film => shortFilm ? (
+
+    const storageSavedFilms = JSON.parse(localStorage.getItem('savedFilms'))
+    const filteredFilms = storageSavedFilms.filter(film => savedFilmsShortFilm ? (
       film.nameRU.toLowerCase().includes(savedFilmsSearchValue.toLowerCase()) && film.duration <= 40
-    ) : (
+      ) : (
       film.nameRU.toLowerCase().includes(savedFilmsSearchValue.toLowerCase())
-    ) )
+      ))
+
     setTimeout(() => {
       if (!filteredFilms.length) {
         setSavedFilmsSearchLoading(false)
         setSavedFilmsSearchNotFound(true)
       } else {
+        setSavedFilms(filteredFilms)
         setSavedFilmsLoader(false)
         setSavedFilmsSearchLoading(false)
         setSavedFilmsSearchNotFound(false)
-        setSavedFilms(filteredFilms)
+        setSearchValue('')
       }
     }, 200)
   }
@@ -202,8 +210,7 @@ function App() {
       mainApi.createMovie(film, localStorage.getItem('jwt'))
         .then(newFilm => {
           setSavedFilms([newFilm, ...savedFilms])
-          setCopyOfSavedFilms([newFilm, ...savedFilms])
-          // localStorage.setItem('savedFilms', JSON.stringify([newFilm, ...savedFilms]))    
+          localStorage.setItem('savedFilms', JSON.stringify([newFilm, ...savedFilms]))    
         })
         .catch(err => console.log(err))
     } else {
@@ -212,7 +219,7 @@ function App() {
         .then(() => {
           const newFilms = savedFilms.filter(savedFilm => savedFilm.movieId !== film.id)
           setSavedFilms(newFilms)
-          setCopyOfSavedFilms(newFilms)
+          localStorage.setItem('savedFilms', JSON.stringify(newFilms))    
         })
         .catch(err => console.log(err))
     }
@@ -223,8 +230,7 @@ function App() {
       .then(deletedFilm => {
         const newFilms = savedFilms.filter(savedFilm => savedFilm._id !== deletedFilm._id)
         setSavedFilms(newFilms)
-        setCopyOfSavedFilms(newFilms)
-
+        localStorage.setItem('savedFilms', JSON.stringify(newFilms))
       })
       .catch(err => console.log(err))
   }
@@ -266,15 +272,14 @@ function App() {
       mainApi.getMovies(localStorage.getItem('jwt'))
         .then(data => {
           const ownFilms = data.filter(film => film.owner === userInfo._id)  
-          // localStorage.setItem('savedFilms', JSON.stringify(ownFilms))
-          setCopyOfSavedFilms(ownFilms)
+          localStorage.setItem('savedFilms', JSON.stringify(ownFilms))
           setSavedFilms(ownFilms)
         })
         .catch(err => console.log(err)
         )        
     }
       
-  }, [userInfo, loggedIn])
+  }, [userInfo, loggedIn, localStorage])
 
   // закрывает попап при нажатии на escape
 
@@ -337,6 +342,11 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem('films')) {
       setFilms(JSON.parse(localStorage.getItem('films')))
+      setSearchValue(localStorage.getItem('searchValue'))
+      setShortFilm(JSON.parse(localStorage.getItem('shortFilm')))
+    }
+    if (localStorage.getItem('savedFilms')) {
+      setSavedFilms(JSON.parse(localStorage.getItem('savedFilms')))
     }
   }, [])
 
@@ -387,6 +397,7 @@ function App() {
               onMoreButtonClick={handleMoreButtonClick}
               shortFilm={shortFilm}
               onToogleCheckbox={handleToogleCheckbox}
+              onSearchValidationError={searchValidationError}
             />
           ) : <Navigate to='/'/>
            }/>
@@ -394,7 +405,7 @@ function App() {
           path="/saved-movies" 
           element={loggedIn ? (
             <SavedMovies 
-              films={copyOfSavedFilms}
+              films={savedFilms}
               onSavedFilmDelete={handleDeleteMovie}
               searchValue={savedFilmsSearchValue}
               onChangeSearchValue={handleChangeSearchValue}
@@ -404,6 +415,7 @@ function App() {
               onSearchLoading={savedFilmsSearchLoading}
               onToogleCheckbox={handleToogleCheckbox}
               shortFilm={savedFilmsShortFilm}
+              onSearchValidationError={savedFilmsSearchValidationError}
             />
           ) : <Navigate to='/'/>
            }/>

@@ -2,7 +2,6 @@ import { MoviesCardList } from "./MoviesCardList/MoviesCardList";
 import { SearchForm } from "./SearchForm/SearchForm";
 import Preloader from "../Preloader/Preloader";
 
-
 export function Movies(props) {
 
   return (
@@ -12,7 +11,8 @@ export function Movies(props) {
         onChangeSearchValue={props.onChangeSearchValue} 
         onSearch={props.onSearch} 
         onToogleCheckbox={props.onToogleCheckbox} 
-        shortFilm={props.shortFilm}/>
+        shortFilm={props.shortFilm}
+        onSearchValidationError={props.onSearchValidationError}/>
       {props.loader ? (
         <Preloader 
           onSerchNotFound={props.onSerchNotFound} 

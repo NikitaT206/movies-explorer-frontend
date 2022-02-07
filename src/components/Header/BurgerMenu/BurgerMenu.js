@@ -26,7 +26,7 @@ export function BurgerMenu(props) {
               onClick={props.handleBurgerOpen}
               >Сохранённые фильмы</NavLink>
           </nav>
-          <Link className='burger-menu__account' to='/profile' onClick={props.handleBurgerOpen}>
+          <Link className='burger-menu__account opacity' to='/profile' onClick={props.handleBurgerOpen}>
             <p className='header__account-text'>Аккаунт</p>
             <div className='header__account-logo'></div>
           </Link>

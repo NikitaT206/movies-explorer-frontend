@@ -32,24 +32,26 @@ export function MoviesCard(props) {
 
   return (
     <div className='movie'>
-      <div className='movie__image-container'>
-        {props.savedFilms ? (
-          <img className='movie__image' alt={props.film.nameRU} src={props.film.image}/>
-        ) : (
-          <img className='movie__image' alt={props.film.nameRU} src={moviesUrl + props.film.image.url}/>
-        )}
-      </div>
-      <div className='movie__despription-container'>
-        <div className='movie__description'>
-          <p className='movie__name'>{props.film.nameRU}</p>
+      <a className='movie__link' href={props.film.trailer || props.film.trailerLink} target='_blank' rel="noreferrer">
+        <div className='movie__image-container'>
           {props.savedFilms ? (
-            <button className='movie__delete-button opacity' onClick={handleDelete}></button>
-          ) : (
-            <button className={isLiked ? 'movie__like movie__like_active opacity' : 'movie__like opacity'} onClick={handleLike}></button>
-          )}
+            <img className='movie__image' alt={props.film.nameRU} src={props.film.image}/>
+            ) : (
+            <img className='movie__image' alt={props.film.nameRU} src={moviesUrl + props.film.image.url}/>
+            )}
         </div>
-        <p className='movie__time'>{filmDuration}</p>
+        <div className='movie__despription-container'>
+          <div className='movie__description'>
+            <p className='movie__name'>{props.film.nameRU}</p>
+          </div>
+          <p className='movie__time'>{filmDuration}</p>
+        </div>
+      </a>
+        {props.savedFilms ? (
+          <button className='movie__delete-button opacity' onClick={handleDelete}></button>
+          ) : (
+          <button className={isLiked ? 'movie__like movie__like_active opacity' : 'movie__like opacity'} onClick={handleLike}></button>
+          )}
       </div>
-    </div>
   )
 }

@@ -91,6 +91,11 @@
   color: black;
   transition: 0.2s ease-in-out;
   width: 100%;
+  transform-origin: right;
+}
+
+.profile__input:focus {
+  transform: scale(1.1);
 }
 
 .profile__input_error {
@@ -106,16 +111,14 @@
   transition: 0.2s ease-in-out;
 }
 
-.profile__input:focus::placeholder {
-  color: orange;
-}
-
 .profile__submit-button {
   background-color: transparent;
   border: none;
   padding: 0;
   color: black;
   font-size: 13px;
+  font-weight: 400;
+  font-style: normal;
   line-height: 15.73px;
   outline: none;
   transition: 0.3s ease-in-out;
@@ -128,7 +131,6 @@
 
 .profile__submit-button:focus {
   transform: scale(1.1);
-  color: orange;
 }
 
 .profile__logout-button {
