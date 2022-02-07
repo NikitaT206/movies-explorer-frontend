@@ -1,0 +1,11 @@
+.app {
+  font-family: "Inter", sans-serif;
+  position: relative;
+  overflow: auto;
+  height: 100%;
+}
+
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
