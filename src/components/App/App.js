@@ -139,9 +139,9 @@ function App() {
     }
   }
 
-  function handleSearch(films, shortFilms) {
+  function handleSearch(films, shortFilms, value) {
     return films.filter(film => {
-      const searchQuery = () => film.nameRU.toLowerCase().includes(searchValue.toLowerCase().trim())
+      const searchQuery = () => film.nameRU.toLowerCase().includes(value.toLowerCase().trim())
 
       return shortFilms
       ? film.duration <= 40 && searchQuery()
@@ -161,7 +161,7 @@ function App() {
         setSearchError(false)
         setCounter(0)
         setTimeout(() => {
-          const filteredFilms = handleSearch(films, shortFilm)
+          const filteredFilms = handleSearch(films, shortFilm, searchValue)
           console.log(filteredFilms)
           
           if (!filteredFilms.length) {
@@ -194,8 +194,8 @@ function App() {
     setSavedFilmsSearchNotFound(false)
 
     const storageSavedFilms = JSON.parse(localStorage.getItem('savedFilms'))
-    const filteredFilms = handleSearch(storageSavedFilms, savedFilmsShortFilm)
-
+    const filteredFilms = handleSearch(storageSavedFilms, savedFilmsShortFilm, savedFilmsSearchValue)
+    
     setTimeout(() => {
       if (!filteredFilms.length) {
         setSavedFilmsSearchLoading(false)
