@@ -6,7 +6,6 @@ export function Registration(props) {
 
   const [data, setData] = useState({email: '', password: '', name: ''})
   const [message, setMessage] = useState({name: '', email: '', password: ''})
-  const [error, setError] = useState({name: false, email: false, password: false})
   const [isValid, setIsValid] = useState(false)
 
   function handleChange(event) {
@@ -17,7 +16,6 @@ export function Registration(props) {
     })
 
     setMessage({...message, [name]: validationMessage})
-    setError({...error, [name]: validationMessage ? true : false})
 
     if (event.target.closest('form').checkValidity()) {
       setIsValid(true)
@@ -43,7 +41,7 @@ export function Registration(props) {
             <div className='login__input-container'>
               <label className='login__label' htmlFor='registration-input-name'>Имя</label>
               <input 
-                className={error.name ? 'login__input login__input_error' : 'login__input'} 
+                className={message.name ? 'login__input login__input_error' : 'login__input'} 
                 id='registration-input-name'
                 minLength={2}
                 maxLength={30}
@@ -58,7 +56,7 @@ export function Registration(props) {
             <div className='login__input-container'>
               <label className='login__label' htmlFor='registration-input-email'>E-mail</label>
               <input 
-                className={error.email ? 'login__input login__input_error' : 'login__input'} 
+                className={message.email ? 'login__input login__input_error' : 'login__input'} 
                 id='registration-input-email'
                 type='email'
                 name='email'
@@ -71,7 +69,7 @@ export function Registration(props) {
             <div className='login__input-container'>
               <label className='login__label' htmlFor='registration-input-password'>Пароль</label>
               <input 
-                className={error.password ? 'login__input login__input_error' : 'login__input'} 
+                className={message.password ? 'login__input login__input_error' : 'login__input'} 
                 id='registration-input-password'
                 minLength={6}
                 maxLength={30}
