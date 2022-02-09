@@ -139,7 +139,17 @@ function App() {
     }
   }
 
-  function handleSearch(event) {
+  function handleSearch(films, shortFilms) {
+    return films.filter(film => {
+      const searchQuery = () => film.nameRU.toLowerCase().includes(searchValue.toLowerCase().trim())
+
+      return shortFilms
+      ? film.duration <= 40 && searchQuery()
+      : searchQuery()
+    })
+  }
+
+  function handleSearchFilms(event) {
     event.preventDefault()
     if (!searchValue) return setSearchValidationError(true)
     setSearchValidationError(false)
@@ -151,11 +161,9 @@ function App() {
         setSearchError(false)
         setCounter(0)
         setTimeout(() => {
-          const filteredFilms = films.filter(film => shortFilm ? (
-            film.duration <= 40 && film.nameRU.toLowerCase().includes(searchValue.toLowerCase())
-          )  : (
-            film.nameRU.toLowerCase().includes(searchValue.toLowerCase())
-          ))
+          const filteredFilms = handleSearch(films, shortFilm)
+          console.log(filteredFilms)
+          
           if (!filteredFilms.length) {
             setSearchLoading(false)
             setSearchNotFound(true)
@@ -186,11 +194,7 @@ function App() {
     setSavedFilmsSearchNotFound(false)
 
     const storageSavedFilms = JSON.parse(localStorage.getItem('savedFilms'))
-    const filteredFilms = storageSavedFilms.filter(film => savedFilmsShortFilm ? (
-      film.nameRU.toLowerCase().includes(savedFilmsSearchValue.toLowerCase()) && film.duration <= 40
-      ) : (
-      film.nameRU.toLowerCase().includes(savedFilmsSearchValue.toLowerCase())
-      ))
+    const filteredFilms = handleSearch(storageSavedFilms, savedFilmsShortFilm)
 
     setTimeout(() => {
       if (!filteredFilms.length) {
@@ -223,7 +227,6 @@ function App() {
             setLoader(true)
             setSearchNotFound(true)
           }
-          
         }
       }
 
@@ -433,7 +436,7 @@ function App() {
                 onFilmLike={handleLikeMovie}
                 searchValue={searchValue}
                 onChangeSearchValue={handleChangeSearchValue}
-                onSearch={handleSearch}
+                onSearch={handleSearchFilms}
                 loader={loader}
                 onSerchNotFound={searchNotFound}
                 onSearchLoading={searchLoading}
