@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 export function Profile(props) {
 
-  const [data, setData] = useState({name: props.name, email: props.email})
+  const [data, setData] = useState({name: '', email: ''})
   const [message, setMessage] = useState({name: '', email: ''})
   const [isValid, setIsValid] = useState(true)
 
@@ -30,10 +30,14 @@ export function Profile(props) {
   }
 
   useEffect(() => {
+    setData({name: props.name, email: props.email})  
+  }, [props.name, props.email])
+
+  useEffect(() => {
     if (data.name === props.name && data.email === props.email) {
       setIsValid(false)
     }
-  }, [data, props.name, props.email])
+  }, [data.name, data.email, props.name, props.email])
 
   return (
     <div className='profile'>
@@ -54,7 +58,7 @@ export function Profile(props) {
                 maxLength={30}
                 type='text'
                 name='name'
-                value={data.name || props.name || ''}
+                value={data.name || ''}
                 onChange={handleChange}
                 required
                 pattern='^[a-zA-Zа-яёА-ЯЁ\-\s]+$'
@@ -74,7 +78,7 @@ export function Profile(props) {
                 maxLength={30}
                 type='email'
                 name='email'
-                value={data.email || props.email || ''}
+                value={data.email || ''}
                 onChange={handleChange}
                 required
                 pattern='^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
