@@ -5,7 +5,6 @@ import { useState } from 'react'
 export function Login(props) {
   const [data, setData] = useState({email: '', password: ''})
   const [message, setMessage] = useState({email: '', password: ''})
-  const [error, setError] = useState({email: false, password: false})
   const [isValid, setIsValid] = useState(false)
 
   function handleChange(event) {
@@ -15,7 +14,6 @@ export function Login(props) {
       [name]: value
     })
     setMessage({...message, [name]: validationMessage})
-    setError({...error, [name]: validationMessage ? true : false})
 
     if (event.target.closest('form').checkValidity()) {
       setIsValid(true)
@@ -42,7 +40,7 @@ export function Login(props) {
             <div className='login__input-container'>
               <label className='login__label' htmlFor='login-input-email'>E-mail</label>
               <input 
-                className={error.email ? 'login__input login__input_error' : 'login__input'} 
+                className={message.email ? 'login__input login__input_error' : 'login__input'} 
                 id='login-input-email'
                 type='email'
                 name='email'
@@ -55,7 +53,7 @@ export function Login(props) {
             <div className='login__input-container'>
               <label className='login__label' htmlFor='login-input-password'>Пароль</label>
               <input 
-                className={error.password ? 'login__input login__input_error' : 'login__input'} 
+                className={message.password ? 'login__input login__input_error' : 'login__input'} 
                 id='login-input-password'
                 minLength={6}
                 maxLength={30}
