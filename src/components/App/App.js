@@ -63,7 +63,8 @@ function App() {
   }
 
   function handleToogleCheckbox() {
-    if (location.pathname === '/movies') {      
+    if (location.pathname === '/movies') {
+      handleShortFilmsSearch()
       setShortFilm(!shortFilm)
     } else if (location.pathname === '/saved-movies') {
       setSavedFilmsShortFilm(!savedFilmsShortFilm)
@@ -202,6 +203,22 @@ function App() {
         setSearchValue('')
       }
     }, 200)
+  }
+
+  function handleShortFilmsSearch() {
+    setLoader(false)
+    setSearchNotFound(false)
+    if (!shortFilm) {
+      const filtered = films.filter(film => film.duration <= 40)
+      if (filtered.length) {
+        setFilms(filtered)
+      } else {
+        setLoader(true)
+        setSearchNotFound(true)
+      }
+    } else {
+      setFilms(JSON.parse(localStorage.getItem('films')))
+    }
   }
 
   function handleLikeMovie(film) {

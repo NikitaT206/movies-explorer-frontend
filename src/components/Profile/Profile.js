@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom'
 import './Profile.css'
-import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 export function Profile(props) {
 
-  const [data, setData] = useState({name: '', email: ''})
+  const [data, setData] = useState({name: props.name, email: props.email})
   const [message, setMessage] = useState({name: '', email: ''})
   const [error, setError] = useState({name: false, email: false})
   const [isValid, setIsValid] = useState(true)
@@ -32,6 +32,12 @@ export function Profile(props) {
     props.onEditUser(data)
   }
 
+  useEffect(() => {
+    if (data.name === props.name && data.email === props.email) {
+      setIsValid(false)
+    }
+  }, [data, props.name, props.email])
+
   return (
     <div className='profile'>
       <div className='profile__container'>
@@ -47,7 +53,7 @@ export function Profile(props) {
                 maxLength={30}
                 type='text'
                 name='name'
-                placeholder={props.name}
+                value={data.name}
                 onChange={handleChange}
                 required
                 pattern='^[a-zA-Zа-яёА-ЯЁ\-\s]+$'
@@ -63,7 +69,7 @@ export function Profile(props) {
                 maxLength={30}
                 type='email'
                 name='email'
-                placeholder={props.email}
+                value={data.email}
                 onChange={handleChange}
                 required
                 pattern='^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'

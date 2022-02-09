@@ -17,8 +17,8 @@ export function Header(props) {
             <Link className='header__link opacity' to='/saved-movies'>Сохраненные фильмы</Link>
           </nav>
           <Link className='header__parties' to='/profile'>
-            <p className='header__account-text'>Аккаунт</p>
-            <div className='header__account-logo'></div>
+            <p className='header__account-text opacity'>Аккаунт</p>
+            <div className='header__account-logo opacity'></div>
           </Link>
         </div>
         <Burger burgerOpen={props.burgerOpen} handleBurgerOpen={props.handleBurgerOpen}/>
