@@ -159,6 +159,7 @@ function App() {
           if (!filteredFilms.length) {
             setSearchLoading(false)
             setSearchNotFound(true)
+            setFilms(filteredFilms)
           } else {
             setFilms(filteredFilms)
             localStorage.setItem('searchValue', searchValue)
@@ -208,17 +209,21 @@ function App() {
   function handleShortFilmsSearch() {
     setLoader(false)
     setSearchNotFound(false)
-    if (!shortFilm) {
-      const filtered = films.filter(film => film.duration <= 40)
-      if (filtered.length) {
-        setFilms(filtered)
-      } else {
-        setLoader(true)
-        setSearchNotFound(true)
+    if (localStorage.getItem('films')) {
+
+      if (!shortFilm) {
+        const filtered = films.filter(film => film.duration <= 40)
+
+        if (filtered.length) {
+          setFilms(filtered)
+        }
       }
-    } else {
-      setFilms(JSON.parse(localStorage.getItem('films')))
-    }
+
+      if (shortFilm && films.length) {
+        setFilms(JSON.parse(localStorage.getItem('films')))
+      }
+      
+    } else return
   }
 
   function handleLikeMovie(film) {
@@ -269,9 +274,11 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem('jwt')) {
       setLoggedIn(true)
-      if (loggedIn) {
-        navigate('/movies')
-      }
+      console.log(loggedIn)
+      
+      // if (loggedIn) {
+      //   navigate('/movies')
+      // }
     }
   }, [loggedIn])
 
@@ -382,60 +389,75 @@ function App() {
       </Routes>
       
       <Routes>
-        <Route path='/signup' element={<Registration onRegister={handleRegistration}/>}/>
-        <Route path='/signin' element={<Login onLogin={handleLogin}/>}/>
+        <Route 
+          path='/signup' 
+          element={
+            !loggedIn 
+            ? <Registration onRegister={handleRegistration}/>
+            : <Navigate to='/movies'/>
+        }/>
+        <Route 
+          path='/signin' 
+          element={
+            !loggedIn
+            ? <Login onLogin={handleLogin}/>
+            : <Navigate to='/movies'/>
+        }/>
         <Route exact path="/" element={<Main/>}/>
         <Route 
           path="/profile"
-          element={loggedIn ? (
-            <Profile
-              onLogout={handleLogout} 
-              name={userInfo.name} 
-              email={userInfo.email} 
-              onEditUser={handleUpdateUser}
-            />
-          ) : <Navigate to='/'/>
-           }/>
+          element={
+            loggedIn 
+            ?  <Profile
+                onLogout={handleLogout} 
+                name={userInfo.name} 
+                email={userInfo.email} 
+                onEditUser={handleUpdateUser}
+              /> 
+           : <Navigate to='/'/>
+        }/>
         <Route 
           path="/movies" 
-          element={loggedIn ? (
-            <Movies
-              films={films}
-              onFilmLike={handleLikeMovie}
-              searchValue={searchValue}
-              onChangeSearchValue={handleChangeSearchValue}
-              onSearch={handleSearch}
-              loader={loader}
-              onSerchNotFound={searchNotFound}
-              onSearchLoading={searchLoading}
-              onSearchError={searchError}
-              counter={counter}
-              showMoreButton={moreButton}
-              onMoreButtonClick={handleMoreButtonClick}
-              shortFilm={shortFilm}
-              onToogleCheckbox={handleToogleCheckbox}
-              onSearchValidationError={searchValidationError}
-            />
-          ) : <Navigate to='/'/>
-           }/>
+          element={
+            loggedIn 
+            ? <Movies
+                films={films}
+                onFilmLike={handleLikeMovie}
+                searchValue={searchValue}
+                onChangeSearchValue={handleChangeSearchValue}
+                onSearch={handleSearch}
+                loader={loader}
+                onSerchNotFound={searchNotFound}
+                onSearchLoading={searchLoading}
+                onSearchError={searchError}
+                counter={counter}
+                showMoreButton={moreButton}
+                onMoreButtonClick={handleMoreButtonClick}
+                shortFilm={shortFilm}
+                onToogleCheckbox={handleToogleCheckbox}
+                onSearchValidationError={searchValidationError}
+              />
+            : <Navigate to='/'/>
+        }/>
         <Route 
           path="/saved-movies" 
-          element={loggedIn ? (
-            <SavedMovies 
-              films={savedFilms}
-              onSavedFilmDelete={handleDeleteMovie}
-              searchValue={savedFilmsSearchValue}
-              onChangeSearchValue={handleChangeSearchValue}
-              onSearch={handleSearchSavedFilms}
-              loader={savedFilmsLoader}
-              onSearchNotFound={savedFilmsSearchNotFound}
-              onSearchLoading={savedFilmsSearchLoading}
-              onToogleCheckbox={handleToogleCheckbox}
-              shortFilm={savedFilmsShortFilm}
-              onSearchValidationError={savedFilmsSearchValidationError}
-            />
-          ) : <Navigate to='/'/>
-           }/>
+          element={
+            loggedIn 
+            ? <SavedMovies 
+                films={savedFilms}
+                onSavedFilmDelete={handleDeleteMovie}
+                searchValue={savedFilmsSearchValue}
+                onChangeSearchValue={handleChangeSearchValue}
+                onSearch={handleSearchSavedFilms}
+                loader={savedFilmsLoader}
+                onSearchNotFound={savedFilmsSearchNotFound}
+                onSearchLoading={savedFilmsSearchLoading}
+                onToogleCheckbox={handleToogleCheckbox}
+                shortFilm={savedFilmsShortFilm}
+                onSearchValidationError={savedFilmsSearchValidationError}
+              />
+            : <Navigate to='/'/>
+        }/>
         <Route path='*' element={<NotFound/>}/>
       </Routes>  
 
