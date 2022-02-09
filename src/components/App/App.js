@@ -33,7 +33,7 @@ function App() {
   const [infoError, setInfoError] = useState(false)
   const [infoText, setInfoText] = useState('')
 
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(JSON.parse(localStorage.getItem('loggedIn')))
   const [userInfo, setUserInfo] = useState({})
   const [films, setFilms] = useState([])
   const [savedFilms, setSavedFilms] = useState([])
@@ -64,8 +64,8 @@ function App() {
 
   function handleToogleCheckbox() {
     if (location.pathname === '/movies') {
-      handleShortFilmsSearch()
       setShortFilm(!shortFilm)
+      handleShortFilmsSearch()
     } else if (location.pathname === '/saved-movies') {
       setSavedFilmsShortFilm(!savedFilmsShortFilm)
     }
@@ -77,7 +77,7 @@ function App() {
         setInfoOpen(true)
         setInfoError(false)
         setInfoText('Вы зарегистрированы!')
-        navigate('/signin')
+        handleLogin(data)
       })
       .catch(() => {
         setInfoOpen(true)
@@ -90,8 +90,11 @@ function App() {
     mainApi.login(data)
       .then(data => {
         localStorage.setItem('jwt', data.data)
-        setLoggedIn(true)
-        navigate('/movies')
+        localStorage.setItem('loggedIn', JSON.stringify(true))
+        setLoggedIn(JSON.parse(localStorage.getItem('loggedIn')))
+        setTimeout(() => {
+          navigate('/movies')
+        }, 0)
       })
       .catch(() => {
         setInfoOpen(true)
@@ -106,6 +109,7 @@ function App() {
     localStorage.removeItem('savedFilms')
     localStorage.removeItem('searchValue')
     localStorage.removeItem('shortFilm')
+    localStorage.removeItem('loggedIn')
     setFilms([])
     setSearchValue('')
     setShortFilm(false)
@@ -162,7 +166,6 @@ function App() {
         setCounter(0)
         setTimeout(() => {
           const filteredFilms = handleSearch(films, shortFilm, searchValue)
-          console.log(filteredFilms)
           
           if (!filteredFilms.length) {
             setSearchLoading(false)
@@ -282,17 +285,6 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    if (localStorage.getItem('jwt')) {
-      setLoggedIn(true)
-      console.log(loggedIn)
-      
-      // if (loggedIn) {
-      //   navigate('/movies')
-      // }
-    }
-  }, [loggedIn])
-
   useEffect(() => {    
     if (loggedIn) {
       mainApi.getUserInfo(localStorage.getItem('jwt'))
@@ -314,7 +306,7 @@ function App() {
         )        
     }
       
-  }, [userInfo, loggedIn, localStorage])
+  }, [userInfo, loggedIn])
 
   // закрывает попап при нажатии на escape
 
@@ -405,16 +397,17 @@ function App() {
           element={
             !loggedIn 
             ? <Registration onRegister={handleRegistration}/>
-            : <Navigate to='/movies'/>
+            : <Navigate to='/'/>
         }/>
         <Route 
           path='/signin' 
           element={
             !loggedIn
             ? <Login onLogin={handleLogin}/>
-            : <Navigate to='/movies'/>
+            : <Navigate to='/'/>
         }/>
-        <Route exact path="/" element={<Main/>}/>
+
+        <Route path="/" element={<Main/>}/>
         <Route 
           path="/profile"
           element={
@@ -425,10 +418,10 @@ function App() {
                 email={userInfo.email} 
                 onEditUser={handleUpdateUser}
               /> 
-           : <Navigate to='/'/>
+            : <Navigate to='/'/>
         }/>
         <Route 
-          path="/movies" 
+          exact path="/movies" 
           element={
             loggedIn 
             ? <Movies
