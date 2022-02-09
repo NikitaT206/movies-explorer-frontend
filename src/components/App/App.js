@@ -125,13 +125,13 @@ function App() {
         setInfoOpen(true)
         setInfoError(false)
         setUserInfo(data)
-        setInfoText('Все хорошо')
+        setInfoText('Данные успешно обновлены')
       })
       .catch(err => {
         console.log(err)
         setInfoOpen(true)
         setInfoError(true)
-        setInfoText('Кажется что-то пошло не так. Попробуйте еще раз')
+        setInfoText('Кажется этот email уже занят. Попробуйте ввести другой.')
       })
   }
 
@@ -248,7 +248,12 @@ function App() {
           setSavedFilms([newFilm, ...savedFilms])
           localStorage.setItem('savedFilms', JSON.stringify([newFilm, ...savedFilms]))    
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          console.log(err)
+          setInfoOpen(true)
+          setInfoError(true)
+          setInfoText('Кажется этот фильм нельзя сохранить :(')
+        })
     } else {
       const id = savedFilms.filter(s => s.movieId === film.id)[0]._id
       mainApi.deleteMovie(id, localStorage.getItem('jwt'))

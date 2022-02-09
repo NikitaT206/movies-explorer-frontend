@@ -7,6 +7,7 @@ export function Registration(props) {
   const [data, setData] = useState({email: '', password: '', name: ''})
   const [message, setMessage] = useState({name: '', email: '', password: ''})
   const [isValid, setIsValid] = useState(false)
+  const [disabled, setDisabled] = useState(false)
 
   function handleChange(event) {
     const {name, value, validationMessage} = event.target
@@ -26,7 +27,13 @@ export function Registration(props) {
 
   function handleSubmit(event) {    
     event.preventDefault()
-    props.onRegister(data)
+    setDisabled(true)
+    setIsValid(false)
+    setTimeout(() => {
+      props.onRegister(data)
+      setDisabled(false)
+      setIsValid(true)
+    }, 0)
   }
 
   return (
@@ -49,6 +56,7 @@ export function Registration(props) {
                 name='name'
                 onChange={handleChange}
                 required
+                disabled={disabled ? true : false}
                 pattern='^[a-zA-Zа-яёА-ЯЁ\-\s]+$'
                 />
                 <span className='login__validation-message'>{message.name}</span>
@@ -62,6 +70,7 @@ export function Registration(props) {
                 name='email'
                 onChange={handleChange}
                 required
+                disabled={disabled ? true : false}
                 pattern='^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
                 />
                 <span className='login__validation-message'>{message.email}</span>
@@ -76,6 +85,7 @@ export function Registration(props) {
                 type='password'
                 name='password'
                 onChange={handleChange}
+                disabled={disabled ? true : false}
                 required
                 />
                 <span className='login__validation-message'>{message.password}</span>

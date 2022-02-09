@@ -6,6 +6,7 @@ export function Login(props) {
   const [data, setData] = useState({email: '', password: ''})
   const [message, setMessage] = useState({email: '', password: ''})
   const [isValid, setIsValid] = useState(false)
+  const [disabled, setDisabled] = useState(false)
 
   function handleChange(event) {
     const {name, value, validationMessage} = event.target
@@ -24,7 +25,13 @@ export function Login(props) {
 
   function handleSubmit(event) {
     event.preventDefault()
-    props.onLogin(data)
+    setDisabled(true)
+    setIsValid(false)
+    setTimeout(() => {
+      props.onLogin(data)
+      setDisabled(false)
+      setIsValid(true)
+    }, 0)
   }
 
   return (
@@ -46,6 +53,7 @@ export function Login(props) {
                 name='email'
                 onChange={handleChange}
                 required
+                disabled={disabled ? true : false}
                 pattern='^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
                 />
                 <span className='login__validation-message'>{message.email}</span>
@@ -60,6 +68,7 @@ export function Login(props) {
                 type='password'
                 name='password'
                 onChange={handleChange}
+                disabled={disabled ? true : false}
                 required
                 />
                 <span className='login__validation-message'>{message.password}</span>

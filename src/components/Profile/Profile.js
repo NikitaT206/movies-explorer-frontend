@@ -7,6 +7,7 @@ export function Profile(props) {
   const [data, setData] = useState({name: '', email: ''})
   const [message, setMessage] = useState({name: '', email: ''})
   const [isValid, setIsValid] = useState(true)
+  const [disabled, setDisabled] = useState(false)
 
   function handleChange(event) {
     const {name, value, validationMessage} = event.target
@@ -26,7 +27,13 @@ export function Profile(props) {
 
   function handleSubmit(event) {
     event.preventDefault()
-    props.onEditUser(data)
+    setDisabled(true)
+    setIsValid(false)
+    setTimeout(() => {
+      props.onEditUser(data)
+      setDisabled(false)
+      setIsValid(true)
+    }, 0)
   }
 
   useEffect(() => {
@@ -61,6 +68,7 @@ export function Profile(props) {
                 value={data.name || ''}
                 onChange={handleChange}
                 required
+                disabled={disabled ? true : false}
                 pattern='^[a-zA-Zа-яёА-ЯЁ\-\s]+$'
               />
               <span className='profile__validation-message profile__validation-message_top'>{message.name}</span>
@@ -81,6 +89,7 @@ export function Profile(props) {
                 value={data.email || ''}
                 onChange={handleChange}
                 required
+                disabled={disabled ? true : false}
                 pattern='^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
               />
                 <span className='profile__validation-message profile__validation-message_bottom'>{message.email}</span>
