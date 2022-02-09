@@ -216,13 +216,21 @@ function App() {
 
         if (filtered.length) {
           setFilms(filtered)
+        } else {
+          if (!films.length) {
+            return
+          } else {
+            setLoader(true)
+            setSearchNotFound(true)
+          }
+          
         }
       }
 
       if (shortFilm && films.length) {
         setFilms(JSON.parse(localStorage.getItem('films')))
       }
-      
+
     } else return
   }
 
