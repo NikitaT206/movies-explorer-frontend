@@ -44,7 +44,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
+  position: relative;
 }
 
 .login__label {
@@ -65,9 +66,20 @@
   transition: 0.3s ease-in-out;
 }
 
+.login__input_error {
+  color: #ee3465;
+}
+
 .login__input:focus {
   transform: scale(1.02);
   background-color: #f7f7f7e3;
+}
+
+.login__validation-message {
+  font-size: 10px;
+  line-height: 12px;
+  color: #ee3465;
+  min-height: 12px;
 }
 
 .login__submit-button {
@@ -81,6 +93,10 @@
   line-height: 17px;
   padding: 14px 0 14px 0;
   transition: 0.3s ease-in-out;
+}
+
+.login__submit-button_disabled {
+  background-color: #808080;
 }
 
 .login__submit-button:focus {

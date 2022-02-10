@@ -30,6 +30,26 @@
   width: 100%;
 }
 
+.profile__validation-message {
+  font-size: 10px;
+  line-height: 12px;
+  color: #ee3465;
+  position: absolute;
+  text-align: left;
+  display: block;
+}
+
+.profile__validation-message_top {
+  top: -20px;
+  left: 0;
+}
+
+.profile__validation-message_bottom {
+  min-height: 24px;
+  bottom: -30px;
+  left: 0;
+}
+
 .profile__inputs {
   height: 100%;
 }
@@ -40,6 +60,7 @@
   padding-bottom: 16px;
   border-bottom: 1px solid #e8e8e8;
   margin-bottom: 16px;
+  position: relative;
 }
 
 .profile__input-container:last-of-type {
@@ -70,6 +91,15 @@
   color: black;
   transition: 0.2s ease-in-out;
   width: 100%;
+  transform-origin: right;
+}
+
+.profile__input:focus {
+  transform: scale(1.1);
+}
+
+.profile__input_error {
+  color: #ee3465;
 }
 
 .profile__input::placeholder {
@@ -81,27 +111,26 @@
   transition: 0.2s ease-in-out;
 }
 
-.profile__input:focus {
-  color: orange;
-}
-
-.profile__input:focus::placeholder {
-  color: orange;
-}
-
 .profile__submit-button {
   background-color: transparent;
   border: none;
   padding: 0;
   color: black;
   font-size: 13px;
+  font-weight: 400;
+  font-style: normal;
   line-height: 15.73px;
   outline: none;
+  transition: 0.3s ease-in-out;
+}
+
+.profile__submit-button_disabled {
+  color: #e8e8e8;
+  font-size: 12px;
 }
 
 .profile__submit-button:focus {
   transform: scale(1.1);
-  color: orange;
 }
 
 .profile__logout-button {

@@ -5,6 +5,16 @@
   border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
+  position: relative;
+}
+
+.movie__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.movie__link:visited {
+  color: inherit;
 }
 
 .movie__image-container {
@@ -13,7 +23,10 @@
 
 .movie__image {
   width: 100%;
+  height: 203px;
   display: block;
+  object-position: center;
+  object-fit: cover;
 }
 
 .movie__despription-container {
@@ -37,12 +50,12 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-right: 20px;
+  margin-right: 40px;
 }
 
 .movie__like {
-  width: 30px;
-  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
   background-image: url(../../../images/like.svg);
   background-position: center;
   background-repeat: no-repeat;
@@ -50,6 +63,11 @@
   transition: 0.3s ease-in-out;
   border: none;
   background-color: transparent;
+  z-index: 10;
+  position: absolute;
+  right: 16px;
+  bottom: 31px;
+  padding: 0;
 }
 
 .movie__like_active {
@@ -74,6 +92,11 @@
   transition: 0.3s ease-in-out;
   border: none;
   background-color: transparent;
+  z-index: 10;
+  position: absolute;
+  right: 16px;
+  bottom: 31px;
+  padding: 0;
 }
 
 .movie:hover .movie__delete-button {
@@ -81,7 +104,17 @@
   visibility: visible;
 }
 
+@media screen and (max-width: 768px) {
+  .movie__image {
+    height: 190px;
+  }
+}
+
 @media screen and (max-width: 500px) {
+  .movie__image {
+    height: 168px;
+  }
+
   .movie__name {
     font-size: 12px;
     line-height: 14.52px;
@@ -92,5 +125,10 @@
   .movie__time {
     font-size: 10px;
     line-height: 12.1px;
+  }
+
+  .movie__delete-button {
+    opacity: 1;
+    visibility: visible;
   }
 }

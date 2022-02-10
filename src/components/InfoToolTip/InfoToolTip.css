@@ -1,0 +1,74 @@
+.info {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 0;
+  transition: 0.3s ease-in-out;
+}
+
+.info_open {
+  opacity: 1;
+  visibility: visible;
+  z-index: 10000;
+}
+
+.info__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-sizing: border-box;
+  width: 350px;
+  position: relative;
+}
+
+.info__image {
+  max-width: 150px;
+  display: block;
+  margin-bottom: 30px;
+}
+
+.info__text {
+  margin: 0;
+  font-size: 18px;
+}
+
+.info__close-button {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  background-color: transparent;
+  border: none;
+  background-image: url(../../images/closeIcon.svg);
+  min-width: 20px;
+  min-height: 20px;
+  background-position: center;
+  padding: 0;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 500px) {
+  .info__container {
+    width: 250px;
+  }
+
+  .info__close-button {
+    right: 0;
+    top: -40px;
+    min-width: 30px;
+    min-height: 30px;
+  }
+}

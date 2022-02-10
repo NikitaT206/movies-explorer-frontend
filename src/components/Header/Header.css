@@ -1,6 +1,11 @@
 .header {
-  display: flex;
   height: 74px;
+  display: flex;
+  align-items: center;
+}
+
+.header__container {
+  display: flex;
   align-items: center;
 }
 
@@ -34,9 +39,6 @@
   padding: 0;
   margin-right: 30px;
   text-decoration: none;
-}
-
-.header__signup-button:visited {
   color: inherit;
 }
 
@@ -116,6 +118,7 @@
   display: flex;
   align-items: center;
   text-decoration: none;
+  color: inherit;
 }
 
 .header__parties:visited {
