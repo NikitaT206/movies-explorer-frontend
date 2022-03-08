@@ -1,5 +1,5 @@
 import './Portfolio.css'
-import student from '../../../images/student.jpg'
+import student from '../../../images/student.png'
 import arrow from '../../../images/arrow.svg'
 
 export function Portfolio() {
@@ -9,10 +9,14 @@ export function Portfolio() {
         <h3 className="section__title">Студент</h3>
         <div className='portfolio__student-container'>
           <div className='portfolio__student-description'>
-            <h2 className='portfolio__student-name'>Виталий</h2>
-            <p className='portfolio__student-job'>Фронтенд-разработчик, 30 лет</p>
-            <p className='portfolio__student-text'>Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена 
-и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.</p>
+            <h2 className='portfolio__student-name'>Никита</h2>
+            <p className='portfolio__student-job'>Фронтенд-разработчик, 29 лет</p>
+            <p className='portfolio__student-text'>Привет! Меня зовут Никита, мне 29 лет,  живу в Санкт-Петербурге. Недавно окончил курс по web-разработке в Яндекс.Практикум.
+Создание визуальной составляющей сайтов, интерактивных элементов страницы, красивых эффектов, вот что привлекает меня в работе Frontend-разработчика. 
+Сейчас активно развиваюсь в данном направлении. Изучаю документацию по JavaScript, React. Решаю задачки на codewars. Пишу небольшие pet-проекты.</p>
+            <p className='portfolio__student-text'>Работал на госслужбе таможенным инспектором,  понял что перспектив по карьерному росту и по зарплате там нет. Всегда хотел научиться программированию, но считал что это слишком сложно. Стоило только попробовать и назад пути уже не было :) </p>
+            <p className='portfolio__student-text'>Создание визуальной составляющей сайтов, интерактивных элементов страницы, красивых эффектов, вот что привлекает меня в работе Frontend-разработчика. 
+Сейчас активно развиваюсь в данном направлении. Изучаю документацию по JavaScript, React. Решаю задачки на codewars. Пишу небольшие pet-проекты.</p>
             <div className='portfolio__student-links'>
               <a className='portfolio__student-link opacity' href='https://www.linkedin.com/in/nikita-tunik-774862220/' rel='noreferrer' target="_blank">LinkedIn</a>
               <a className='portfolio__student-link opacity' href='https://github.com/NikitaT206' rel='noreferrer' target="_blank">GitHub</a>

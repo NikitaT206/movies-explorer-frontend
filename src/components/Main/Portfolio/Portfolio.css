@@ -23,6 +23,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top;
   display: block;
   border-radius: 10px;
 }
@@ -48,6 +49,10 @@
   font-style: normal;
   font-weight: 400;
   line-height: 22px;
+  margin: 0 0 20px 0;
+}
+
+.portfolio__student-text:last-of-type {
   margin: 0 0 99px 0;
 }
 
@@ -102,6 +107,16 @@
     padding: 90px 0;
   }
 
+  .portfolio__student-container {
+    flex-direction: column-reverse;
+  }
+
+  .portfolio__student-image-container {
+    margin: 0 auto;
+    max-width: 350px;
+    width: 100%;
+  }
+
   .portfolio__student-name {
     font-size: 40px;
     line-height: 40px;
@@ -117,6 +132,9 @@
   .portfolio__student-text {
     font-size: 12px;
     line-height: 18px;
+  }
+
+  .portfolio__student-text:last-of-type {
     margin-bottom: 87px;
   }
 
@@ -136,7 +154,6 @@
   }
 
   .portfolio__student-container {
-    flex-direction: column-reverse;
     margin-bottom: 69px;
   }
 
@@ -162,6 +179,9 @@
   .portfolio__student-text {
     font-size: 11px;
     line-height: 16px;
+  }
+
+  .portfolio__student-text:last-of-type {
     margin-bottom: 40px;
   }
 
